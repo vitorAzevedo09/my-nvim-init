@@ -36,7 +36,7 @@ nnoremap <c-p> :Files<cr>
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
 
-let g:python3_host_prog = "/home/vitor/Documents/projects/ubiz/venv/bin/python"
+let g:python3_host_prog = "path/to/python3"
 
 set hidden
 set number
