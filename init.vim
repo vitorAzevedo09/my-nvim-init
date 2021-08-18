@@ -1,5 +1,6 @@
 call plug#begin()
 
+Plug 'akinsho/nvim-toggleterm.lua'
 Plug 'jiangmiao/auto-pairs'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'sheerun/vim-polyglot'
@@ -36,7 +37,7 @@ nnoremap <c-p> :Files<cr>
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
 
-let g:python3_host_prog = "path/to/python3"
+let g:python3_host_prog = "python3"
 
 set hidden
 set number
@@ -46,6 +47,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
+colorscheme zellner
 
 let mapleader="\<space>"
 inoremap jk <ESC>
