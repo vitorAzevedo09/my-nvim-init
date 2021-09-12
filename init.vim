@@ -1,5 +1,7 @@
 call plug#begin()
 
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'romgrk/barbar.nvim'
 Plug 'akinsho/nvim-toggleterm.lua'
 Plug 'jiangmiao/auto-pairs'
 Plug 'terryma/vim-multiple-cursors'
@@ -27,7 +29,7 @@ Plug 'nvim-treesitter/nvim-treesitter'
 
 call plug#end()
 
-colorscheme koehler
+colorscheme default 
 
 let mapleader="\<space>"
 
@@ -47,8 +49,6 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
-colorscheme zellner
-
 let mapleader="\<space>"
 inoremap jk <ESC>
 inoremap <tab> <c-V><tab>
@@ -57,9 +57,56 @@ inoremap <C-S-space> <up>
 inoremap <C-space> <down>
 nnoremap <leader>; A;<ESC>
 nnoremap <c-p> :Files<cr>
-nnoremap <c-s> :w<cr>
+nnoremap <C-s> :Neoformat<CR> :w<CR>
 nnoremap <c-f> :Ag <cr>
 nnoremap <F6> :NERDTreeToggle<CR>
+
+
+
+
+" Move to previous/next
+nnoremap <silent>    <A-,> :BufferPrevious<CR>
+nnoremap <silent>    <A-.> :BufferNext<CR>
+" Re-order to previous/next
+nnoremap <silent>    <A-<> :BufferMovePrevious<CR>
+nnoremap <silent>    <A->> :BufferMoveNext<CR>
+" Goto buffer in position...
+nnoremap <silent>    <A-1> :BufferGoto 1<CR>
+nnoremap <silent>    <A-2> :BufferGoto 2<CR>
+nnoremap <silent>    <A-3> :BufferGoto 3<CR>
+nnoremap <silent>    <A-4> :BufferGoto 4<CR>
+nnoremap <silent>    <A-5> :BufferGoto 5<CR>
+nnoremap <silent>    <A-6> :BufferGoto 6<CR>
+nnoremap <silent>    <A-7> :BufferGoto 7<CR>
+nnoremap <silent>    <A-8> :BufferGoto 8<CR>
+nnoremap <silent>    <A-9> :BufferLast<CR>
+" Pin/unpin buffer
+nnoremap <silent>    <A-p> :BufferPin<CR>
+" Close buffer
+nnoremap <silent>    <A-c> :BufferClose<CR>
+" Wipeout buffer
+"                          :BufferWipeout<CR>
+" Close commands
+"                          :BufferCloseAllButCurrent<CR>
+"                          :BufferCloseAllButPinned<CR>
+"                          :BufferCloseBuffersLeft<CR>
+"                          :BufferCloseBuffersRight<CR>
+" Magic buffer-picking mode
+nnoremap <silent> <S-s>    :BufferPick<CR>
+" Sort automatically by...
+nnoremap <silent> <Space>bb :BufferOrderByBufferNumber<CR>
+nnoremap <silent> <Space>bd :BufferOrderByDirectory<CR>
+nnoremap <silent> <Space>bl :BufferOrderByLanguage<CR>
+nnoremap <silent> <Space>bw :BufferOrderByWindowNumber<CR>
+
+" Other:
+" :BarbarEnable - enables barbar (enabled by default)
+" :BarbarDisable - very bad command, should never be used
+
+
+
+
+
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 " Define mappings
 autocmd FileType denite call s:denite_my_settings()
