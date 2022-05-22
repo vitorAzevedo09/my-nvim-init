@@ -2,6 +2,7 @@ call plug#begin()
 "File Search:
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}   
 
 "File Browser:
 Plug 'jistr/vim-nerdtree-tabs'
@@ -63,7 +64,17 @@ call plug#end()
 
 filetype plugin on
 
-colorscheme default 
+
+lua << EOF
+local catppuccin = require("catppuccin")
+
+-- configure it
+catppuccin.setup({
+    transparent_background = true,
+})
+EOF
+
+colorscheme catppuccin 
 
 let mapleader="\<space>"
 
@@ -489,3 +500,5 @@ nmap <leader>w :w<CR>
 "set listchars=nbsp:¬,extends:»,precedes:«,trail:•
 " Ignore node_modules and images from search results
 set wildignore+=**/node_modules/**,**/dist/**,**_site/**,*.swp,*.png,*.jpg,*.gif,**.git/**,*.webp,*.jpeg,*.map#
+
+
