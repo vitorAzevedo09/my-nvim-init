@@ -1,181 +1,164 @@
 call plug#begin()
-"File Search:
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'catppuccin/nvim', {'as': 'catppuccin'}   
 
-"File Browser:
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'mkitt/tabline.vim'
-Plug 'ryanoasis/vim-devicons'
-
-"Color:
-"Plug 'morhetz/gruvbox'
-Plug 'rakr/vim-one'
-
-"Rust lang:
-Plug 'rust-lang/rust.vim'
-
-"Golang:
-Plug 'fatih/vim-go'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
-
-
-"Snippets:
-Plug 'SirVer/ultisnips'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'vim-airline/vim-airline'
-
-"Git:
-Plug 'tpope/vim-fugitive'
-
-" Optional
-" RFC! search
-Plug 'mhinz/vim-rfc'
-
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'preservim/nerdcommenter'
-Plug 'romgrk/barbar.nvim'
-Plug 'akinsho/nvim-toggleterm.lua'
-Plug 'jiangmiao/auto-pairs'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'sheerun/vim-polyglot'
-Plug 'preservim/nerdtree'
-Plug 'w0rp/ale'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
-Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+" Use release branch (recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sbdchd/neoformat'
-Plug 'arcticicestudio/nord-vim'
-Plug 'w0rp/ale'
-Plug 'cohama/lexima.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'glepnir/zephyr-nvim'
-Plug 'nvim-treesitter/nvim-treesitter'
+
+" Or build from source code by using yarn: https://yarnpkg.com
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'scrooloose/nerdcommenter'
+
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 call plug#end()
 
-filetype plugin on
 
 
-lua << EOF
-local catppuccin = require("catppuccin")
+" Custom remaps
+inoremap jk <Esc>
+cnoremap kj <C-C>
+nnoremap <C-t> :NvimTreeToggle<CR>
+nnoremap <C-s> :w<CR>
 
--- configure it
-catppuccin.setup({
-    transparent_background = true,
-})
-EOF
-
-colorscheme catppuccin 
-
-let mapleader="\<space>"
-
-nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <c-p> :Files<cr>
-
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips'
-
-let g:python3_host_prog = "python3"
-
-set hidden
-set number
+"Customs Config
 set relativenumber
-set mouse=a
-set tabstop=4
-set shiftwidth=4
-set expandtab
+let mapleader = " "
+set hidden
 
-let mapleader="\<space>"
-inoremap jk <ESC>
-inoremap <tab> <c-V><tab>
-cnoremap jk <ESC>
-inoremap <C-S-space> <up>
-inoremap <C-space> <down>
-nnoremap <leader>; A;<ESC>
-nnoremap <c-p> :Files<cr>
-nnoremap <C-s> :Neoformat<CR> :w<CR>
-nnoremap <c-f> :Ag <cr>
-vnoremap <c-c> "+y <cr>
-nnoremap <leader>f :CocCommand prettier.formatFile<CR>
+set background=dark
+set termguicolors
 
-" Move to previous/next
-nnoremap <silent>    <A-,> :BufferPrevious<CR>
-nnoremap <silent>    <A-.> :BufferNext<CR>
-" Re-order to previous/next
-nnoremap <silent>    <A-<> :BufferMovePrevious<CR>
-nnoremap <silent>    <A->> :BufferMoveNext<CR>
-" Goto buffer in position...
-nnoremap <silent>    <A-1> :BufferGoto 1<CR>
-nnoremap <silent>    <A-2> :BufferGoto 2<CR>
-nnoremap <silent>    <A-3> :BufferGoto 3<CR>
-nnoremap <silent>    <A-4> :BufferGoto 4<CR>
-nnoremap <silent>    <A-5> :BufferGoto 5<CR>
-nnoremap <silent>    <A-6> :BufferGoto 6<CR>
-nnoremap <silent>    <A-7> :BufferGoto 7<CR>
-nnoremap <silent>    <A-8> :BufferGoto 8<CR>
-nnoremap <silent>    <A-9> :BufferLast<CR>
-" Pin/unpin buffer
-nnoremap <silent>    <A-p> :BufferPin<CR>
-" Close buffer
-nnoremap <silent>    <A-c> :BufferClose<CR>
-" Wipeout buffer
-"                          :BufferWipeout<CR>
-" Close commands
-"                          :BufferCloseAllButCurrent<CR>
-"                          :BufferCloseAllButPinned<CR>
-"                          :BufferCloseBuffersLeft<CR>
-"                          :BufferCloseBuffersRight<CR>
-" Magic buffer-picking mode
-nnoremap <silent> <S-s>    :BufferPick<CR>
-" Sort automatically by...
-nnoremap <silent> <Space>bb :BufferOrderByBufferNumber<CR>
-nnoremap <silent> <Space>bd :BufferOrderByDirectory<CR>
-nnoremap <silent> <Space>bl :BufferOrderByLanguage<CR>
-nnoremap <silent> <Space>bw :BufferOrderByWindowNumber<CR>
-
-" Other:
-" :BarbarEnable - enables barbar (enabled by default)
-" :BarbarDisable - very bad command, should never be used
+autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType css setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType xml setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 
-
-
-
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" Define mappings
-autocmd FileType denite call s:denite_my_settings()
-function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> d
-  \ denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p
-  \ denite#do_map('do_action', 'preview')
-  nnoremap <silent><buffer><expr> q
-  \ denite#do_map('quit')
-  nnoremap <silent><buffer><expr> i
-  \ denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <Space>
-  \ denite#do_map('toggle_select').'j'
+" Functions and autocmds to run whenever changing colorschemes
+function! TransparentBackground()
+    highlight Normal guibg=NONE ctermbg=NONE
+    highlight LineNr guibg=NONE ctermbg=NONE
+    set fillchars+=vert:\│
+    highlight WinSeparator gui=NONE guibg=NONE guifg=#444444 cterm=NONE ctermbg=NONE ctermfg=gray
+    highlight VertSplit gui=NONE guibg=NONE guifg=#444444 cterm=NONE ctermbg=NONE ctermfg=gray
 endfunction
 
-" Rust development
-let g:rustfmt_autosave = 1
+" Use these colors for Pmenu, CmpPmenusBorder and TelescopeBorder when using dracula colorscheme
+function! DraculaTweaks()
+    " Pmenu colors when not using bordered windows
+    highlight Pmenu guibg=#363948
+    highlight PmenuSbar guibg=#363948
+    " Completion/documentation Pmenu border color when using bordered windows
+    highlight link CmpPmenuBorder NonText
+    " Telescope borders
+    highlight link TelescopeBorder Constant
+endfunction
 
-" GENERAL
-let g:one_allow_italics = 1
-set tabstop=4
-set shiftwidth=4
-set expandtab
+augroup MyColors
+    autocmd!
+    autocmd ColorScheme dracula call DraculaTweaks()
+    "autocmd ColorScheme * call TransparentBackground() " uncomment if you are using a translucent terminal and you want nvim to use that
+augroup END
+
+
+""" Main Configurations
+filetype plugin indent on
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent
+set incsearch ignorecase smartcase hlsearch
+set encoding=utf-8
+set number
+set title
+
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Using Lua functions
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+lua << EOF
+
+require("nvim-tree").setup()
+
+require('telescope').setup({
+  defaults = {
+    layout_config = {
+      vertical = { width = 0.5 }
+    },
+    file_ignore_patterns = {
+	"node_modules"
+	}
+  },
+  pickers = {
+    find_files = {
+      theme = "dropdown",
+    }
+  },
+})
+
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'horizon',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    always_divide_middle = true,
+    globalstatus = false,
+    refresh = {
+      statusline = 1000,
+      tabline = 1000,
+      winbar = 1000,
+    }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
+
+EOF
+
+" COC Config
+
+" Set internal encoding of vim, not needed on neovim, since coc.nvim using some
+" unicode characters in the file autoload/float.vim
+set encoding=utf-8
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -196,7 +179,7 @@ set shortmess+=c
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
-if has("patch-8.1.1564")
+if has("nvim-0.5.0") || has("patch-8.1.1564")
   " Recently vim can merge signcolumn and number column into one
   set signcolumn=number
 else
@@ -206,13 +189,13 @@ endif
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TABn
+inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ CheckBackspace() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
@@ -241,15 +224,13 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
   else
-    execute '!' . &keywordprg . " " . expand('<cword>')
+    call feedkeys('K', 'in')
   endif
 endfunction
 
@@ -281,6 +262,9 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
@@ -292,16 +276,29 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-,> <Plug>(coc-range-select)
+xmap <silent> <C-,> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format :call CocActionAsync('format')
 
 " Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -325,180 +322,3 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
-
-let mapleader = "\<Space>"
-
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd!
-  autocmd VimEnter * PlugInstall
-endif
-
-
-" VIM-GO
-let g:go_auto_type_info = 1
-let g:go_fmt_fail_silently = 1
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-
-" VIM Bash
-let g:LanguageClient_serverCommands = {
-    \ 'sh': ['bash-language-server', 'strat']
-    \ }
-
-" vim-fugitive config
-if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
-endif
-
-	let g:airline_theme='one'
-
-	" unicode symbols
-	let g:airline_left_sep = '»'
-	let g:airline_left_sep = '▶'
-	let g:airline_right_sep = '«'
-	let g:airline_right_sep = '◀'
-	let g:airline_symbols.linenr = '␊'
-	let g:airline_symbols.linenr = '␤'
-	let g:airline_symbols.linenr = '¶'
-	let g:airline_symbols.branch = '⎇'
-	let g:airline_symbols.paste = 'ρ'
-	let g:airline_symbols.paste = 'Þ'
-	let g:airline_symbols.paste = '∥'
-	let g:airline_symbols.whitespace = 'Ξ'
-	"
-	" airline symbols
-	let g:airline_left_sep = ''
-	let g:airline_left_alt_sep = ''
-	let g:airline_right_sep = ''
-	let g:airline_right_alt_sep = ''
-	let g:airline_symbols.branch = ''
-	let g:airline_symbols.readonly = ''
-	let g:airline_symbols.linenr = ''
-
-
-"COPY/PASTE:
-"-----------
-"Increases the memory limit from 50 lines to 1000 lines
-:set viminfo='100,<1000,s10,h
-
-"NUMBERING:
-"----------
-:set number
-
-"INDENTATION:
-"------------
-"Highlights code for multiple indents without reselecting
-vnoremap < <gv
-vnoremap > >gv
-
-"COLOR:
-"------
-" colorscheme gruvbox
-" colorscheme low
-" set background=light
-
-"Cycle through completion entries with tab/shift+tab
-inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
-"Allow getting out of pop with Down/Up arrow keys
-inoremap <expr> <down> pumvisible() ? "\<C-E>" : "\<down>"
-inoremap <expr> <up> pumvisible() ? "\<C-E>" : "\<up>"
-
-"SNIPPETS:
-"---------
-"Change default expand since TAB is used to cycle options
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-"FILE SEARCH:
-"------------
-"allows FZF to open by pressing CTRL-F
-map <C-p> :FZF<CR>
-"allow FZF to search hidden 'dot' files
-let $FZF_DEFAULT_COMMAND = "find -L -type f -not -path '*/\.git/*'"
-
-"FILE BROWSER:
-"-------------
-"allows NERDTree to open/close by typing 'n' then 't'
-map <C-t> :NERDTreeToggle<CR>
-"Start NERDtree when dir is selected (e.g. "vim .") and start NERDTreeTabs
-let g:nerdtree_tabs_open_on_console_startup=2
-"Add a close button in the upper right for tabs
-let g:tablineclosebutton=1
-"Automatically find and select currently opened file in NERDTree
-let g:nerdtree_tabs_autofind=1
-"Add folder icon to directories
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:DevIconsEnableFoldersOpenClose = 1
-"Hide expand/collapse arrows
-let g:NERDTreeDirArrowExpandable = "\u00a0"
-let g:NERDTreeDirArrowCollapsible = "\u00a0"
-let g:WebDevIconsNerdTreeBeforeGlyphPadding = ""
-highlight! link NERDTreeFlags NERDTreeDir
-
-"SHORTCUTS:
-"----------
-"Open file at same line last closed
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-  \| exe "normal! g'\"" | endif
-endif
-
-"SOURCING:
-"---------
-"Automatically reloads neovim configuration file on write (w)
-autocmd! bufwritepost init.vim source %
-
-"MOUSE:
-"------
-"Allow using mouse helpful for switching/resizing windows
-set mouse+=a
-if &term =~ '^screen'
-  " tmux knows the extended mouse mode
-  set ttymouse=xterm2
-endif
-
-"TEXT SEARCH:
-"------------
-"Makes Search Case Insensitive
-set ignorecase
-
-"SWAP:
-"-----
-set dir=~/.local/share/nvim/swap/
-
-"GIT (FUGITIVE):
-"---------------
-map fgb :Gblame<CR>
-map fgs :Gstatus<CR>
-map fgl :Glog<CR>
-map fgd :Gdiff<CR>
-map fgc :Gcommit<CR>
-map fga :Git add %:p<CR>
-
-"SYNTAX HIGHLIGHTING:
-"--------------------
-syntax enable
-filetype plugin indent on
-
-"HIGHLIGHTING:
-"-------------
-" <Ctrl-l> redraws the screen and removes any search highlighting.
-nnoremap <silent> <C-l> :nohl<CR><C-l>
-" Highlight the current line the cursor is on
-set cursorline
-
-" Quick-save
-nmap <leader>w :w<CR>
-
-" Verbose
-"set list
-"set listchars=nbsp:¬,extends:»,precedes:«,trail:•
-" Ignore node_modules and images from search results
-set wildignore+=**/node_modules/**,**/dist/**,**_site/**,*.swp,*.png,*.jpg,*.gif,**.git/**,*.webp,*.jpeg,*.map#
-
-
