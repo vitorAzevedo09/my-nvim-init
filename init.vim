@@ -1,4 +1,16 @@
 call plug#begin()
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'terryma/vim-multiple-cursors'
 
 " Use release branch (recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -22,6 +34,7 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 
+let g:deoplete#enable_at_startup = 1
 
 " Custom remaps
 inoremap jk <Esc>
@@ -30,9 +43,11 @@ nnoremap <C-t> :NvimTreeToggle<CR>
 nnoremap <C-s> :w<CR>
 
 "Customs Config
+set wrap
+set hidden
 set relativenumber
 let mapleader = " "
-set hidden
+set foldmethod=indent
 
 set background=dark
 set termguicolors
@@ -81,16 +96,11 @@ set title
 let g:NERDCreateDefaultMappings = 1
 
 " Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <c-p> <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-" Using Lua functions
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 lua << EOF
 
@@ -151,6 +161,14 @@ require('lualine').setup {
   inactive_winbar = {},
   extensions = {}
 }
+
+
+require("toggleterm").setup{
+  size = vim.o.lines * 0.3,
+  open_mapping = [[<c-\>]],
+  direction = 'horizontal',
+  shell = 'zsh',
+  } 
 
 EOF
 
