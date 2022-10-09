@@ -15,9 +15,6 @@ Plug 'terryma/vim-multiple-cursors'
 " Use release branch (recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Or build from source code by using yarn: https://yarnpkg.com
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
@@ -39,8 +36,11 @@ let g:deoplete#enable_at_startup = 1
 " Custom remaps
 inoremap jk <Esc>
 cnoremap kj <C-C>
-nnoremap <C-t> :NvimTreeToggle<CR>
-nnoremap <C-s> :w<CR>
+nnoremap <A-t> :NvimTreeToggle<CR>
+nnoremap <C-w> :w<CR>
+nnoremap <C-q> :q<CR>
+nnoremap <A-l> <C-W>l
+nnoremap <A-h> <C-W>h
 
 "Customs Config
 set wrap
@@ -340,3 +340,4 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
